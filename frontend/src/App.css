@@ -1,0 +1,48 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.form {
+  display: grid;
+  gap: 20px;
+  max-width: 480px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field > label {
+  font-size: 15px;
+  text-align: left;
+}
+
+.inputs {
+  display: flex;
+  gap: 8px;
+}
+
+input {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 16px;
+}
+
+.inputs select {
+  width: 167px;
+  padding: 10px;
+}
+
+.inputs input {
+  width: 100%;
+  max-width: 200px;
+}

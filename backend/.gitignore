@@ -1,0 +1,6 @@
+.env
+.pytest_cache
+venv
+.DS_Store
+logs
+instance
