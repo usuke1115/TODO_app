@@ -1,4 +1,5 @@
 pydantic
+pydantic[email]
 python-dotenv
 pytest
 Flask
