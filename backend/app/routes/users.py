@@ -2,6 +2,8 @@ from flask import Blueprint
 from flask import jsonify
 from flask import request
 from flask import session
+from pydantic import ValidationError
+from app.schemas.users import UserValidator
 from app.services.users import authenticate_user
 from app.services.users import create_user
 from app.services.users import get_all
@@ -16,14 +18,20 @@ def get_all_users():
 
 @users_bp.post("/signup")
 def create_new_user():
-    user = request.get_json()
     try:
-        new_user = create_user(user)
+        data = request.get_json()
+        user = UserValidator(**data)
+        new_user = create_user(user.model_dump())
         return jsonify(new_user.to_dict()), 201
+    except ValidationError as e:
+        return jsonify({
+            "message": "Validation Error", 
+            "errors": e.errors()
+        }), 400
     except Exception as e:
         return jsonify({
             "message": "Fail to create new user"
-        }), 400
+        }), 500
 
 @users_bp.post("/login")
 def login():
