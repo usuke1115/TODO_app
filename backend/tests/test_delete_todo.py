@@ -20,7 +20,7 @@ def test_update_todo(client):
     db.session.commit()
     
     with client.session_transaction() as session:
-        session["user_id"] = 1
+        session["user_id"] = user.id
     client.post(
         "/todos/", 
         json={
