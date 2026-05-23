@@ -24,7 +24,7 @@ function TodoList({userId, userName}: {userId?: number, userName: string}) {
         try {
             const todo = { name: value, userId: userId };
 
-            const res = await fetch("http://localhost:5000/todos/", {
+            const res = await fetch(`http://localhost:5000/todos/${userId}`, {
                 method: "POST", 
                 headers: {
                 "Content-Type": "application/json"
@@ -44,15 +44,15 @@ function TodoList({userId, userName}: {userId?: number, userName: string}) {
         }
     }
 
-    const fetchTodos = async () => {
-        const res = await fetch("http://localhost:5000/todos/");
+    const fetchTodos = async (userId?: number) => {
+        const res = await fetch(`http://localhost:5000/todos/${userId}`);
         const todos: Todo[] = await res.json();
         setTodos(todos);
     };
 
     useEffect(() => {
-        fetchTodos();
-    }, []);
+        fetchTodos(userId);
+    }, [userId]);
 
     const handleEdit = async (id: number) => {
         try {
