@@ -7,4 +7,5 @@ Flask-SQLAlchemy
 Flask_CORS
 Flask-bcrypt
 Flask-jwt-extended
+SQLAlchemy
 WTForms
