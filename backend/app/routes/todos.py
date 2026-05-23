@@ -6,21 +6,27 @@ from app.services.todos import create_todo
 from app.services.todos import delete_todo
 from app.services.todos import edit_todo
 from app.services.todos import fetch_all_todos
+from app.services.todos import fetch_todos_by_user_id
 
 todos_bp = Blueprint("todos_bp", __name__)
 
-@todos_bp("/")
+@todos_bp.get("/")
 def get_all_todos():
     todos = fetch_all_todos()
     return jsonify([todo.to_dict() for todo in todos]), 200
 
-@todos_bp.post("/")
-def create_new_todo():
+@todos_bp.get("/<int:user_id>")
+def get_all_todos_by_user_id(user_id):
+    todos =  fetch_todos_by_user_id(user_id)
+    return jsonify([todo.to_dict() for todo in todos]), 200
+
+@todos_bp.post("/<int:user_id>")
+def create_new_todo(user_id):
     try:
         req = request.get_json()
         data = TodoValidator(**req)
         todo = data.model_dump()
-        name, user_id = todo["name"], todo["userId"]
+        name = todo["name"]
         new_todo = create_todo(name=name, user_id=user_id)
         return jsonify(new_todo.to_dict()), 201
     except Exception:
