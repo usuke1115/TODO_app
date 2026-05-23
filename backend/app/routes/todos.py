@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask import jsonify
 from flask import request
+from app.schemas.todos import TodoValidator
 from app.services.todos import create_todo
 from app.services.todos import delete_todo
 from app.services.todos import edit_todo
@@ -8,17 +9,18 @@ from app.services.todos import fetch_all_todos
 
 todos_bp = Blueprint("todos_bp", __name__)
 
-@todos_bp.get("/")
+@todos_bp("/")
 def get_all_todos():
-    todos =  fetch_all_todos()
+    todos = fetch_all_todos()
     return jsonify([todo.to_dict() for todo in todos]), 200
 
 @todos_bp.post("/")
 def create_new_todo():
-    req = request.get_json()
-    name = req["name"]
-    user_id = req["userId"]
     try:
+        req = request.get_json()
+        data = TodoValidator(**req)
+        todo = data.model_dump()
+        name, user_id = todo["name"], todo["userId"]
         new_todo = create_todo(name=name, user_id=user_id)
         return jsonify(new_todo.to_dict()), 201
     except Exception:
