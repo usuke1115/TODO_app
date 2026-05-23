@@ -76,7 +76,7 @@ function TodoList({userId, userName}: {userId?: number, userName: string}) {
     const handleDelete = async (id: number) => {
         try {
             const todo = todos.find((todo) => todo.id === id);
-            const res = await fetch(`http://localhost:5000/todos/todo_id/${id}`, {
+            await fetch(`http://localhost:5000/todos/todo_id/${id}`, {
                 method: "DELETE", 
                 headers: {
                     "Content-Type": "application/json"
