@@ -2,7 +2,7 @@ from app.models.users import User
 from app.extentions import db
 from app.extentions import bcrypt
 
-def test_update_todo(client):
+def test_delete_todo(client):
     password = "password"
     hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
     
@@ -20,7 +20,7 @@ def test_update_todo(client):
     db.session.commit()
     
     with client.session_transaction() as session:
-        session["user_id"] = 1
+        session["user_id"] = user.id
     client.post(
         "/todos/", 
         json={

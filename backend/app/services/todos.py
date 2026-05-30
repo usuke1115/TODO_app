@@ -1,11 +1,18 @@
 from app.extentions import db
 from app.models.todos import Todo
+from app.models.users import User
 from werkzeug.exceptions import NotFound
-import datetime
 # from sqlalchemy.exc import SQLAlchemyError
 
 def fetch_all_todos() -> list[Todo]:
     todos = Todo.query.all()
+    return todos
+
+def fetch_todos_by_user_id(user_id: int) -> list[Todo]:
+    todos = (
+        db.session.query(Todo)
+        .filter(Todo.user_id == user_id)
+    )
     return todos
 
 def create_todo(name: str, user_id: int) -> Todo:
