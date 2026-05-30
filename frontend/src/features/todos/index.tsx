@@ -1,4 +1,4 @@
-import { useState, useEffect, type MouseEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { type ChangeEvent, type SubmitEvent  } from "react";
 import type { Todo } from './types/todo';
 

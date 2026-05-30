@@ -16,12 +16,12 @@ function Home() {
           .then(user => {
             setUserName(user.name);
             setUserId(user.id);
-        })
-    }, [])
+          })
+    }, []);
 
     return (
         <>
-            <TodoList userId={userId} userName={userName} /> 
+            {userId === undefined ? <div>Loading...</div> : <TodoList userId={userId} userName={userName} />} 
         </>  
     )
 }
