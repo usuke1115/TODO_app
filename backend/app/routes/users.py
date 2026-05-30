@@ -22,6 +22,7 @@ def create_new_user():
         data = request.get_json()
         user = UserValidator(**data)
         new_user = create_user(user.model_dump())
+        session["user_id"] = new_user.id
         return jsonify(new_user.to_dict()), 201
     except ValidationError as e:
         return jsonify({
