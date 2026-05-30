@@ -17,7 +17,7 @@ function Home() {
             setUserName(user.name);
             setUserId(user.id);
         })
-    }, [])
+    }, []);
 
     return (
         <>
