@@ -9,6 +9,7 @@ import { usePassword } from "./hooks/password";
 import { usePasswordForConf } from "./hooks/password_confirm";
 import { useSex } from "./hooks/sex";
 import { useYear } from "./hooks/year";
+import { useNavigate } from "react-router-dom";
 
 function SignupForm() {
   const years: number[] = getYears(1920, 2025);
@@ -22,6 +23,7 @@ function SignupForm() {
   const { password, handlePassChange } = usePassword();
   const { passwordForConf, handlePassConfirm } = usePasswordForConf();
   const [isSamePass, setIsSamePass] = useState<boolean>(true);
+  const navigate = useNavigate();
 
 
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
@@ -45,16 +47,25 @@ function SignupForm() {
       password: password
     };
 
-    await fetch("http://localhost:5000/users/signup", {
-      method: "POST", 
-      headers: {
-        "Content-Type": "application/json"
-      }, 
-      body: JSON.stringify(userInfo)
-    }).then(res => res.json())
-      .catch(err => {
-        console.error("Error:", err);
+    try {
+      const response = await fetch("http://localhost:5000/users/signup", {
+        method: "POST", 
+        headers: {
+          "Content-Type": "application/json"
+        }, 
+        credentials: "include", 
+        body: JSON.stringify(userInfo)
       });
+
+      if (!response.ok) {
+        throw new Error("Signup failed");
+      }
+
+      await response.json();
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
