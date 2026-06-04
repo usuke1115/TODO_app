@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { type ChangeEvent, type SubmitEvent  } from "react";
+import { useSnackbar } from "notistack";
 import type { Todo } from './types/todo';
 
 function TodoList({userId, userName}: {userId?: number, userName: string}) {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [value, setValue] = useState<string>("");
+    const { enqueueSnackbar } = useSnackbar();
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setValue(e.target.value);
@@ -39,6 +41,11 @@ function TodoList({userId, userName}: {userId?: number, userName: string}) {
             const newTodo = await res.json();
             setTodos([...todos, newTodo]);
             setValue("");
+            enqueueSnackbar(
+                "Todo is created", {
+                    variant: "success"
+                }
+            );
         } catch (err) {
             console.error(err);
         }
