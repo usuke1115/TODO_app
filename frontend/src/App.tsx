@@ -8,7 +8,7 @@ import Home from './home';
 
 function App() {
   return (
-    <SnackbarProvider maxSnack={3}>
+    <SnackbarProvider maxSnack={3} anchorOrigin={{ vertical: "top", horizontal: "center"}}>
       <Router>
         <Routes>
           <Route path='/signup' element={<SignupForm />} />
