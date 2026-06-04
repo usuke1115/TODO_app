@@ -62,7 +62,11 @@ function SignupForm() {
       }
 
       await response.json();
-      navigate("/home");
+      navigate("/home", {
+        state: {
+          toast: "ログインに成功しました"
+        }
+      });
     } catch (error) {
       console.log(error);
     }
