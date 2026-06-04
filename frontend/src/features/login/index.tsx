@@ -28,7 +28,11 @@ function LoginForm() {
     }).then(res => res.json())
       .then(data => {
         if (data.id) {
-          navigate("/home");
+          navigate("/home", {
+            state: {
+              toast: "ログインに成功しました"
+            }
+          });
           localStorage.setItem("userId", data.id);
         }
       })
