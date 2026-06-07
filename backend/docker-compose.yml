@@ -1,0 +1,14 @@
+services:
+  flask:
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PYTHONDONTWRITEBYTECODE=1
+    command: ["flask", "--app", "run.py", "run", "--host=0.0.0.0", "--port=8080", "--debug"]
+    volumes:
+      - ./instance:/backend/instance
+      - .:/backend
