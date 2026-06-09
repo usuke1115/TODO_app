@@ -22,6 +22,15 @@
   text-align: left;
 }
 
+.pass {
+  display: flex;
+  align-items: center;
+}
+
+.pass-icon {
+  padding-left: 10px;
+}
+
 .inputs {
   display: flex;
   gap: 8px;
