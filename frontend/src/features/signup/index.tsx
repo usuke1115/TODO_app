@@ -10,6 +10,8 @@ import { usePasswordForConf } from "./hooks/password_confirm";
 import { useSex } from "./hooks/sex";
 import { useYear } from "./hooks/year";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function SignupForm() {
   const years: number[] = getYears(1920, 2025);
@@ -22,9 +24,13 @@ function SignupForm() {
   const { month, handleMonthChange } = useMonth();
   const { password, handlePassChange } = usePassword();
   const { passwordForConf, handlePassConfirm } = usePasswordForConf();
+  const [visible, setVisible] = useState<boolean>(false);
   const [isSamePass, setIsSamePass] = useState<boolean>(true);
   const navigate = useNavigate();
 
+  const togglePassword = () => {
+    setVisible(v => !v);
+  };
 
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -121,13 +127,19 @@ function SignupForm() {
 
         <div className="field">
           <label>パスワード ※</label>
-          <input
-           type="password"
-           value={password}
-           onChange={handlePassChange}
-           required
-          />
-        </div>
+            <div className="pass">
+              <input
+                type={visible ? "text" : "password"}
+                value={password}
+                onChange={handlePassChange}
+                required
+                className="in"
+              />
+              <span onClick={togglePassword} className="pass-icon">
+                {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </span>
+            </div>
+      </div>
 
         <div className="field">
           <label>パスワード（確認用） ※</label>

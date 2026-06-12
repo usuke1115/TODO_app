@@ -2,13 +2,20 @@ import { useState, type SubmitEvent } from "react";
 import { useEmail } from "./hooks/email";
 import { usePassword } from "./hooks/password";
 import { useNavigate } from "react-router-dom";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 function LoginForm() {
   const { email, handleEmailChange } = useEmail();
   const { password, handlePassChange } = usePassword();
+  const [visible, setVisible] = useState<boolean>(false);
   const navigate = useNavigate();
 
   const [userId, _] = useState();
+
+  const togglePassword = () => {
+    setVisible(v => !v);
+  };
 
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,14 +53,19 @@ function LoginForm() {
       <form className="form" onSubmit={handleSubmit}>
         <div className="field">
           <label>パスワード ※</label>
-          <input
-           type="password"
-           value={password}
-           onChange={handlePassChange}
-           placeholder="パスワードを入力して下さい"
-           required
-           style={{ width: "320px" }}
-          />
+          <div className="pass">
+            <input
+            type={visible ? "text" : "password"}
+            value={password}
+            onChange={handlePassChange}
+            placeholder="パスワードを入力して下さい"
+            required
+            style={{ width: "320px" }}
+            />
+            <span onClick={togglePassword} className="pass-icon">
+              {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+            </span>
+          </div>
         </div>
 
         <div className="field">
