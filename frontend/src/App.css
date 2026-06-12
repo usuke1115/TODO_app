@@ -27,6 +27,10 @@
   align-items: center;
 }
 
+.in {
+  width: 90%;
+}
+
 .pass-icon {
   padding-left: 10px;
 }
