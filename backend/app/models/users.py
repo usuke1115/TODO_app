@@ -1,5 +1,6 @@
 from datetime import datetime
 import typing as t
+from zoneinfo import ZoneInfo
 from app.extentions import db
 
 class User(db.Model):
@@ -26,5 +27,5 @@ class User(db.Model):
             "birthyear": self.birthyear, 
             "birthmonth": self.birthmonth, 
             "sex": self.sex, 
-            "created_at": self.created_at
+            "created_at": self.created_at.astimezone(ZoneInfo("Asia/Tokyo")).replace(microsecond=0).isoformat()
         }

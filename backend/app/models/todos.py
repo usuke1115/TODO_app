@@ -1,5 +1,6 @@
 from datetime import datetime
 import typing as t
+from zoneinfo import ZoneInfo
 from app.extentions import db
 
 class Todo(db.Model):
@@ -18,6 +19,6 @@ class Todo(db.Model):
             "user_id": self.user_id, 
             "name": self.name, 
             "is_completed": self.is_completed, 
-            "created_at": self.created_at, 
-            "updated_at": self.updated_at
+            "created_at": self.created_at.astimezone(ZoneInfo("Asia/Tokyo")).replace(microsecond=0).isoformat(), 
+            "updated_at": self.updated_at.astimezone(ZoneInfo("Asia/Tokyo")).replace(microsecond=0).isoformat()
         }
