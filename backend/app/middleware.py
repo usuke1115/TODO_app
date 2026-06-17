@@ -7,5 +7,6 @@ def register_middleware(app):
 
     @app.after_request
     def cors_middleware(res):
+        res.headers["Content-Type"] = "application/json"
         res.headers["Access-Control-Allow-Origin"] = "http://localhost:5173"
         return res

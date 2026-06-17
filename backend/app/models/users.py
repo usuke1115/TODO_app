@@ -1,5 +1,6 @@
 from datetime import datetime
 import typing as t
+from zoneinfo import ZoneInfo
 from app.extentions import db
 
 class User(db.Model):
@@ -13,7 +14,7 @@ class User(db.Model):
     birthyear = db.Column(db.String(5), nullable=False)
     birthmonth = db.Column(db.String(5), nullable=False)
     password = db.Column(db.String(100), nullable=False)
-    created_at = db.Column(db.DateTime, default=datetime.now(), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
     todo = db.relationship("Todo")
     
     def to_dict(self) -> dict[str, t.Any]:
@@ -26,5 +27,5 @@ class User(db.Model):
             "birthyear": self.birthyear, 
             "birthmonth": self.birthmonth, 
             "sex": self.sex, 
-            "created_at": self.created_at
+            "created_at": self.created_at.astimezone(ZoneInfo("Asia/Tokyo")).replace(microsecond=0).isoformat()
         }
