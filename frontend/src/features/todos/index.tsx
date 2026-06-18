@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { type ChangeEvent, type SubmitEvent  } from "react";
 import { useSnackbar } from "notistack";
 import type { Todo } from './types/todo';
+import "./style.css";
 
 function TodoList({userId, userName}: {userId?: number, userName: string}) {
     const [todos, setTodos] = useState<Todo[]>([]);
