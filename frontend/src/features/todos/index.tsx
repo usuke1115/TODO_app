@@ -98,6 +98,13 @@ function TodoList({userId, userName}: {userId?: number, userName: string}) {
         }
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>, id: number) => {
+        if (e.nativeEvent.isComposing || e.key !== "Enter") {
+            return;
+        }
+        handleEdit(id);
+    };
+
     return (
         <>
             <h1>Welcome {userName ? `${userName}さん` : "Guest"}</h1>
@@ -115,8 +122,12 @@ function TodoList({userId, userName}: {userId?: number, userName: string}) {
             <ul>
                 {todos.map((todo) => (
                     <li key={todo.id}>
-                        <input value={todo.name} className='todo' onChange={(e) => handleTodoChange(e, todo.id)} />
-                        <button type='button' onClick={() => handleEdit(todo.id)}>編集</button>
+                        <input
+                            value={todo.name}
+                            className='todo'
+                            onChange={(e) => handleTodoChange(e, todo.id)}
+                            onKeyDown={(e) => handleKeyDown(e, todo.id)}
+                        />
                         <button type='button' onClick={() => handleDelete(todo.id)}>削除</button>
                     </li>
                 ))}
