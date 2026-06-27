@@ -1,29 +1,18 @@
 import { useState, type SubmitEvent } from "react";
 import { months } from "../../../utils/months";
 import { getYears } from "../../../utils/years";
-import { useEmail } from "./../hooks/email";
-import { useHurigana } from "./../hooks/huriganaName";
-import { useMonth } from "./../hooks/month";
-import { useName } from "./../hooks/kanjiName";
-import { usePassword } from "./../hooks/password";
+import { useForm } from "../hooks/form";
 import { usePasswordForConf } from "./../hooks/password_confirm";
-import { useSex } from "./../hooks/sex";
-import { useYear } from "./../hooks/year";
 import { useNavigate } from "react-router-dom";
+import { type Sex } from "../hooks/types/index";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export const RegisterForm =  () => {
   const years: number[] = getYears(1920, 2025);
 
-  const { name, handleKanjiChange } = useName();
-  const { hurigana, handleHuriganaChange } = useHurigana();
-  const { sex, handleSexChange } = useSex();
-  const { email, handleEmailChange } = useEmail();
-  const { year, handleYearChange } = useYear();
-  const { month, handleMonthChange } = useMonth();
-  const { password, handlePassChange } = usePassword();
   const { passwordForConf, handlePassConfirm } = usePasswordForConf();
+  const { form, update } = useForm();
   const [visible, setVisible] = useState<boolean>(false);
   const [isSamePass, setIsSamePass] = useState<boolean>(true);
   const navigate = useNavigate();
@@ -35,22 +24,22 @@ export const RegisterForm =  () => {
   const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (password !== passwordForConf) {
+    if (form.password !== passwordForConf) {
       setIsSamePass(false);
     } else {
       setIsSamePass(true);
     }
 
     const userInfo = {
-      name: name, 
-      hurigana: hurigana, 
-      sex: sex, 
-      email: email, 
+      name: form.name, 
+      hurigana: form.hurigana, 
+      sex: form.sex, 
+      email: form.email, 
       birthday: {
-        year: year, 
-        month: month, 
+        year: form.year, 
+        month: form.month, 
       }, 
-      password: password
+      password: form.password,
     };
 
     try {
@@ -85,18 +74,24 @@ export const RegisterForm =  () => {
             <div className="inputs">
                 <input
                 type="text"
-                value={name.first}
+                value={form.name.first}
                 name="first"
                 placeholder="山田"
-                onChange={handleKanjiChange}
+                onChange={(e) => update("name", {
+                  ...form.name,
+                  first: e.target.value,
+                })}
                 required
                 />
                 <input
                 type="text"
-                value={name.last}
+                value={form.name.last}
                 name="last"
                 placeholder="太郎"
-                onChange={handleKanjiChange}
+                onChange={(e) => update("name", {
+                  ...form.name,
+                  last: e.target.value,
+                })}
                 required
                 />
             </div>
@@ -107,18 +102,24 @@ export const RegisterForm =  () => {
             <div className="inputs">
                 <input
                 type="text"
-                value={hurigana.first}
+                value={form.hurigana.first}
                 name="first"
                 placeholder="ヤマダ"
-                onChange={handleHuriganaChange}
+                onChange={(e) => update("hurigana", {
+                  ...form.hurigana,
+                  first: e.target.value,
+                })}
                 required
                 />
                 <input
                 type="text"
-                value={hurigana.last}
+                value={form.hurigana.last}
                 name="last"
                 placeholder="タロウ"
-                onChange={handleHuriganaChange}
+                onChange={(e) => update("hurigana", {
+                  ...form.hurigana,
+                  last: e.target.value,
+                })}
                 required
                 />
             </div>
@@ -129,8 +130,8 @@ export const RegisterForm =  () => {
                 <div className="pass">
                 <input
                     type={visible ? "text" : "password"}
-                    value={password}
-                    onChange={handlePassChange}
+                    value={form.password}
+                    onChange={(e) => update("password", e.target.value)}
                     required
                     className="in"
                 />
@@ -155,8 +156,8 @@ export const RegisterForm =  () => {
             <label>メールアドレス ※</label>
             <input
             type="email"
-            value={email}
-            onChange={handleEmailChange}
+            value={form.email}
+            onChange={(e) => update("email", e.target.value)}
             required
             />
             </div>
@@ -169,8 +170,8 @@ export const RegisterForm =  () => {
                 type="radio"
                 name="sex"
                 value='male'
-                checked={sex === "male"}
-                onChange={handleSexChange}
+                checked={form.sex === "male"}
+                onChange={(e) => update("sex", e.target.value as Sex)}
                 />
                 男性
                 </label>
@@ -179,8 +180,8 @@ export const RegisterForm =  () => {
                 type="radio"
                 name="sex"
                 value='female'
-                checked={sex === "female"}
-                onChange={handleSexChange}
+                checked={form.sex === "female"}
+                onChange={(e) => update("sex", e.target.value as Sex)}
                 />
                 女性
                 </label>
@@ -189,8 +190,8 @@ export const RegisterForm =  () => {
                 type="radio"
                 name="sex"
                 value='no_answer'
-                checked={sex === "no_answer"}
-                onChange={handleSexChange}
+                checked={form.sex === "no_answer"}
+                onChange={(e) => update("sex", e.target.value as Sex)}
                 />
                 回答しない
                 </label>
@@ -200,13 +201,13 @@ export const RegisterForm =  () => {
             <div className="field">
             <label>誕生年月 ※</label>
                 <div className="inputs">
-                <select value={year} onChange={handleYearChange}>
+                <select value={form.year} onChange={(e) => update("year", e.target.value)}>
                     <option>年</option>
                     {years.map((year) => (
                         <option key={year} value={year}>{year}</option>
                     ))}
                 </select>
-                <select value={month} onChange={handleMonthChange}>
+                <select value={form.month} onChange={(e) => update("month", e.target.value)}>
                     <option>月</option>
                     {months.map((month) => (
                         <option key={month} value={month}>{month}</option>
