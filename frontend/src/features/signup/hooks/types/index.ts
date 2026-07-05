@@ -30,3 +30,8 @@ export const initialForm: Form = {
   year: "",
   month: "",
 };
+
+export type UpdateFn = <K extends keyof Form>(
+  key: K,
+  value: Form[K],
+) => void;
