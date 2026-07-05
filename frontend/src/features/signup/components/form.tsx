@@ -1,18 +1,16 @@
 import { useState, type SubmitEvent } from "react";
 import { months } from "../../../utils/months";
 import { getYears } from "../../../utils/years";
-import { useForm } from "../hooks/form";
 import { usePasswordForConf } from "./../hooks/password_confirm";
 import { useNavigate } from "react-router-dom";
-import { type Sex } from "../hooks/types/index";
+import { type Sex, type Form, type UpdateFn } from "../hooks/types/index";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
-export const RegisterForm =  () => {
+export const RegisterForm =  ({ form, update }: {form: Form, update: UpdateFn}) => {
   const years: number[] = getYears(1920, 2025);
 
   const { passwordForConf, handlePassConfirm } = usePasswordForConf();
-  const { form, update } = useForm();
   const [visible, setVisible] = useState<boolean>(false);
   const [isSamePass, setIsSamePass] = useState<boolean>(true);
   const navigate = useNavigate();
